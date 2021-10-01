@@ -39,22 +39,92 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         }
     }
 
- private void adicionar(){
-     String sql = "INSERT INTO usuarios(iduser,usuario,fone,login,senha,perfil) VALUES (?,?,?,?,?,?)";
-     try{
-         pst = conexao.prepareStatement(sql);
-         pst.setString(1, txtid.getText());
-         pst.setString(2, txtnome.getText());
-         pst.setString(3, txttelefone.getText());
-         pst.setString(4, txtlogin.getText());
-          String Captura_Senha = new String(txtsenha.getText());
-         pst.setString(5, Captura_Senha);
-         pst.setString(6, comboperfil.getSelectedItem().toString());
-         pst.executeUpdate();
-         
-     }catch (Exception e) {
+  private void adicionar(){
+        String sql = "INSERT INTO usuarios(iduser,usuario,fone,login,senha,perfil) VALUES(?,?,?,?,?,?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtid.getText());
+            pst.setString(2, txtnome.getText());
+            pst.setString(3, txttelefone.getText());
+            pst.setString(4, txtlogin.getText());
+            String captura_senha = new String(txtsenha.getText());
+            pst.setString(5, captura_senha);
+            pst.setString(6, comboperfil.getSelectedItem().toString());
+            if (txtid.getText().isEmpty() || txtnome.getText().isEmpty() || txttelefone.getText().isEmpty() || 
+                    txtlogin.getText().isEmpty() || txtsenha.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+                
+            } else {
+                int adicionado = pst.executeUpdate();
+            if (adicionado>0){
+                JOptionPane.showMessageDialog(null,"Usuário adicionado com sucesso!");
+                txtid.setText(null);
+                txtnome.setText(null);
+                txttelefone.setText(null);
+                txtlogin.setText(null);
+                txtsenha.setText(null);
+                
+            }
+            }
+            
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
- }
+        }
+    }
+    
+    private void alterar(){
+        String sql = "UPDATE usuarios set usuario=?, fone=?, login=?, senha=?, "
+                + "perfil=? WHERE iduser=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtnome.getText());
+            pst.setString(2, txttelefone.getText());
+            pst.setString(3, txtlogin.getText());
+            String captura_senha = new String(txtsenha.getText());
+            pst.setString(4, captura_senha);
+            pst.setString(5, comboperfil.getSelectedItem().toString());
+            pst.setString(6, txtid.getText());
+            if (txtid.getText().isEmpty() || txtnome.getText().isEmpty() || txttelefone.getText().isEmpty() || 
+                    txtlogin.getText().isEmpty() || txtsenha.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+            } else {
+                int adicionado = pst.executeUpdate();
+                if (adicionado>0){
+                    JOptionPane.showMessageDialog(null,"Dados do usuário alterado com sucesso!");
+                    txtid.setText(null);
+                    txtnome.setText(null);
+                    txttelefone.setText(null);
+                    txtlogin.setText(null);
+                    txtsenha.setText(null);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void remover(){
+        //antes de remover fazer uma confirmação de remoção
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza de que deseja remover este usuário?",
+                "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
+            String sql = "DELETE FROM usuarios WHERE iduser=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtid.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0){
+                    JOptionPane.showMessageDialog(null, "Usuário removido com sucesso!");
+                    txtid.setText(null);
+                    txtnome.setText(null);
+                    txttelefone.setText(null);
+                    txtlogin.setText(null);
+                    txtsenha.setText(null);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
  }
   
     @SuppressWarnings("unchecked")
@@ -216,11 +286,12 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jLabel6)
                     .addComponent(comboperfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnadicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnselecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnalterar)
-                    .addComponent(btnapagar))
+                    .addComponent(btnapagar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnadicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnalterar)))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
