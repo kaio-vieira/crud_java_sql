@@ -103,6 +103,34 @@ try {
     }
       
     
+       private void apagar(){
+    
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar esse usuário?", 
+        "Atenção", JOptionPane.YES_NO_OPTION);
+        
+        if (confirma == JOptionPane.YES_OPTION ){
+            String sql = "DELETE FROM clientes WHERE idcli=?";
+            
+            try {
+            pst = conexao.prepareStatement(sql); 
+            pst.setString(1, txtID.getText());
+            int apagado = pst.executeUpdate();
+            if (apagado > 0) {
+             JOptionPane.showMessageDialog(null, "Usuário apagado com sucesso!"); 
+         txtID.setText(null);
+         txtNome.setText(null);
+         txtTelefone.setText(null);
+         txtEndereco.setText(null);
+         txtEmail.setText(null);    
+            }
+            
+            } catch (Exception e){
+               JOptionPane.showMessageDialog(null, e);   
+                
+            }
+        }
+        
+    }
     
     
     /**
@@ -186,6 +214,11 @@ try {
         });
 
         btnApagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/loja/ícones/icones/delete.png"))); // NOI18N
+        btnApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("ID:");
 
@@ -293,6 +326,10 @@ try {
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
 alterar();        // TODO add your handling code here:
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        apagar();
+    }//GEN-LAST:event_btnApagarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
