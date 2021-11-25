@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Out-2021 às 19:27
+-- Tempo de geração: 25-Nov-2021 às 15:22
 -- Versão do servidor: 10.4.20-MariaDB
 -- versão do PHP: 8.0.9
 
@@ -42,11 +42,11 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) VALUES
 (1, 'CANTINA ETEC MCM', 'RUA BÉLGICA, 88', '1148484848', 'cantinaetec@email.com'),
 (2, 'PAPELARIA SEILA', 'RUA DO CENTRO, 1234', '11998956464', 'papelaria@email.com'),
-(3, 'José da silva VANIN', 'Rua sei lá, 123', '99999-0000', 'jose@email.com'),
 (4, 'João Ribeiro', 'Rua Amazonas, 1111', '8888-8888', 'joao@email.com'),
 (5, 'Carlos Sampaio', 'Av principal, 4321', '5656-5656', 'carlos@email.com'),
 (6, 'Cida da Silva', 'Rua tr~es, 123456', '7896-6532', 'cida@email.com'),
-(7, 'Joana d\'Arc 2', 'Av 7 de setembro, 123', '3698-9512', 'joana@email.com');
+(7, 'Joana d\'Arc 2', 'Av 7 de setembro, 123', '3698-9512', 'joana@email.com'),
+(8, 'lucas ', 'rua das angras', '11364628552', 'lucas@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -57,6 +57,8 @@ INSERT INTO `clientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) VAL
 CREATE TABLE `ordem_servico` (
   `os` int(11) NOT NULL,
   `data_os` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipo` varchar(15) NOT NULL,
+  `situacao` varchar(50) NOT NULL,
   `equipamento` varchar(150) NOT NULL,
   `defeito` varchar(150) NOT NULL,
   `tecnico` varchar(50) NOT NULL,
@@ -69,8 +71,8 @@ CREATE TABLE `ordem_servico` (
 -- Extraindo dados da tabela `ordem_servico`
 --
 
-INSERT INTO `ordem_servico` (`os`, `data_os`, `equipamento`, `defeito`, `tecnico`, `valor`, `servico`, `idcli`) VALUES
-(1, '2021-07-25 16:48:09', 'COMPUTADOR INTEL I5 - 4G DE RAM - 2T DE HD. COD 1234.5678', 'COMPUTADOR NÃO INICIA VÍDEO.', 'CEBOLINHA', '150.00', 'TROCAR PENTE DE MEMÓRIA. MEMÓRIA EM CURTO.', 1);
+INSERT INTO `ordem_servico` (`os`, `data_os`, `tipo`, `situacao`, `equipamento`, `defeito`, `tecnico`, `valor`, `servico`, `idcli`) VALUES
+(1, '2021-07-25 16:48:09', '', '', 'COMPUTADOR INTEL I5 - 4G DE RAM - 2T DE HD. COD 1234.5678', 'COMPUTADOR NÃO INICIA VÍDEO.', 'CEBOLINHA', '150.00', 'TROCAR PENTE DE MEMÓRIA. MEMÓRIA EM CURTO.', 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +130,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `ordem_servico`
